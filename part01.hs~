@@ -96,6 +96,21 @@ kevinReduce [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")
 
 -}
 
+{-
+--function to transform a string to 
+countWordsInLine :: [String] -> [(String,Int)]
+countWordsInLine [] = 
+countWordsInLine (x:xs) = 
+-}
+
+
+                      --transformedFile = kevinMap countWords fileInWords
+                          
+	              --putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
+		      --let tupleListList = kevinMap countWordsInLine fileInLines
+                      --putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
+
+
 
 import System.Environment  
 import System.IO  
@@ -105,12 +120,39 @@ main = do (fileName:_) <- getArgs
           fileExists <- doesFileExist fileName  
           if fileExists  
               then do contents <- readFile fileName  
-	              let fileInLines = lines contents                        
-	              putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
-		      let tupleList = kevinMap fileInLines
+	              let fileInLines = lines contents
+                          fileInWords = kevinMap words fileInLines --2d array of words
+                          fileInWordCountTuples = kevinMap wordCount fileInWords
+                          wordCountList = kevinReduce fileInWordCountTuples
                       putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
+		      putStrLn $ "wordCountList = " ++ show wordCountList ++ "."
+		--write wordCountList to a file or something
 
               else do putStrLn "The file doesn't exist!"  
+
+
+kevinMap :: (a -> b) -> [a] -> [b]
+kevinMap [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
+
+
+kevinReduce :: [a] -> a
+kevinReduce [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
+
+
+wordCount :: [a] -> [b]
+wordCount [] = []
+wordCount (x:xs) = ((x, countOccurances x xs):wordCount xs)
+
+countOccurances :: String -> [String] -> Int
+countOccurances word (x:xs) = sum if (word == x) then  
+
+
+
+
+
+
+
+
 
 
 
