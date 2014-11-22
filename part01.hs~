@@ -1,3 +1,7 @@
+-- to compile: ghc -threaded -rtsopts -eventlog -XConstraintKinds part01.hs
+-- to run ./part01 testfile.txt
+
+
 import System.Environment  
 import System.IO  
 import System.Directory 
@@ -14,26 +18,26 @@ simpleMapReduce
     -> c             -- result
 simpleMapReduce mapFunc reduceFunc  = reduceFunc . Prelude.map mapFunc  
 
---bad function name
-stringToWordCountTupleList :: String -> Map.Map String Int
-stringToWordCountTupleList  = Map.fromList . Prelude.map (head &&& length) . group . sort . words . Prelude.map toLower 
 
---bad function name
-combineWordCountTupleLists :: Map.Map String Int -> Map.Map String Int -> Map.Map String Int
-combineWordCountTupleLists map1 map2 = Map.unionWith (+) map1 map2
+stringToWordCountMap :: String -> Map.Map String Int
+stringToWordCountMap  = Map.fromList . Prelude.map (head &&& length) . group . sort . words . Prelude.map toLower 
 
---bad function name
-kevinReduce :: [Map.Map String Int] -> Map.Map String Int
---kevinReduce [] = []
-kevinReduce  x = x
-kevinReduce (x:xs) = combineWordCountTupleLists x (kevinReduce xs)
+
+combineWordCountMaps :: Map.Map String Int -> Map.Map String Int -> Map.Map String Int
+combineWordCountMaps map1 map2 = Map.unionWith (+) map1 map2
+
+
+reduceWordCountMaps :: [Map.Map String Int] -> Map.Map String Int
+reduceWordCountMaps  (x:[]) = x
+reduceWordCountMaps (x:xs) = combineWordCountMaps x (reduceWordCountMaps xs)
+
 
 main = do (fileName:_) <- getArgs  
           fileExists <- doesFileExist fileName  
           if fileExists  
               then do contents <- readFile fileName  
 	              let fileInLines = lines contents
-			  result = simpleMapReduce stringToWordCountTupleList kevinReduce fileInLines
+			  result = simpleMapReduce stringToWordCountMap reduceWordCountMaps fileInLines
                       putStrLn $ "The file has " ++ show (length (lines contents)) ++ " lines!"
 		      putStrLn $ "result = " ++ show result ++ "."
 
