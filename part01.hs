@@ -131,11 +131,55 @@ main = do (fileName:_) <- getArgs
               else do putStrLn "The file doesn't exist!"  
 
 
+
+
+
 kevinMap :: (a -> b) -> [a] -> [b]
-kevinMap [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
+kevinMap _ [] = []
+kevinMap f (x:xs) = (f x : kevinMap f xs)
 
 
-kevinReduce :: [a] -> a
+kevinReduce :: (a->a->a)-> [a] -> a
+kevinReduce _ [] = []
+kevinReduce f (x0:xs) = f x0 kevinReduce f xs 
+
+
+
+stringToWordCountTuple :: String -> (String, Int)
+stringToWordCountTuple s =
+    let wordList = words s
+
+    in 
+
+
+wordCountTupleListCombine :: [(String, Int)] -> [(String, Int)] -> [(String, Int)]
+wordCountTupleListCombine l [] = l
+wordCountTupleListCombine [] l = l
+wordCountTupleListCombine = 
+
+
+wordCountTupleListCombine ((word1,count1):xs) ((word2,count2):ys) =
+                           | word1 == word2 = (word1, count1+count2) : wordCountTupleListCombine xs ys
+                           | otherwise 
+
+
+
+
+
+(word2, count2) 
+                                      | word1 == word2 = (word1, count1+count2)
+                                      | otherwise 
+
+
+                                           if word1 == word2 
+                                           then (word1, count1+count2)
+                                           else ()  
+
+
+
+
+
+
 kevinReduce [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
 
 

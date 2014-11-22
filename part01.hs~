@@ -132,7 +132,13 @@ main = do (fileName:_) <- getArgs
 
 
 kevinMap :: (a -> b) -> [a] -> [b]
-kevinMap [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
+kevinMap _ [] = []
+kevinMap f (x:xs) = (f x : kevinMap f xs)
+
+
+
+--kevinMap [fileName, todoItem] = appendFile fileName (todoItem ++ "\n")  
+
 
 
 kevinReduce :: [a] -> a
