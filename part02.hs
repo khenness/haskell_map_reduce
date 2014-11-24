@@ -1,6 +1,5 @@
--- to compile: ghc part01.hs
--- to run ./part01 testfile.txt
-
+-- to compile: ghc -threaded -rtsopts -eventlog -XConstraintKinds part02.hs
+-- to run ./part02 testfile.txt
 
 import System.Environment  
 import System.IO  

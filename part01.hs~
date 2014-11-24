@@ -1,4 +1,4 @@
--- to compile: ghc -threaded -rtsopts -eventlog -XConstraintKinds part01.hs
+-- to compile: ghc part01.hs
 -- to run ./part01 testfile.txt
 
 
