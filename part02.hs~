@@ -1,5 +1,0 @@
--- to compile: ghc -threaded -rtsopts -eventlog -XConstraintKinds part02.hs
--- to run ./part02 testfile.txt
-
-
-
